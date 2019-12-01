@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteMappingsManager">
+    <list>
+      <list>
+        <remote-mappings server-id="python@sftp://zhengmingming@10.108.218.35:22/home/users/zhengmingming/.conda/envs/zmm/bin/python3">
+          <settings>
+            <list>
+              <mapping local-root="E://pyProject/word2vec" remote-root="/home/users/zhengmingming/pycharm/word2vec" />
+            </list>
+          </settings>
+        </remote-mappings>
+      </list>
+    </list>
+  </component>
+</project>
