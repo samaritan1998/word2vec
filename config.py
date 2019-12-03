@@ -24,5 +24,7 @@ class DefaultConfig(object):
         self.MAX_VOCAB_SIZE = 30000
         self.BATCH_SIZE = 128
         self.LEARNING_RATE = 0.2
+        self.NUM_EPOCHS = 2
         self.EMBEDDING_SIZE=100   #100维
         self.LOG_FILE = "word-embedding.log"
+        self.DATA_PATH="./"
