@@ -87,5 +87,8 @@ for e in range(NUM_EPOCHS):
                         e, i, sim_simlex, sim_men, sim_353, find_nearest("monster")))
 
     embedding_weights = model.input_embeddings()
+    #print(embedding_weights)
     np.save("embedding-{}".format(EMBEDDING_SIZE), embedding_weights)
     torch.save(model.state_dict(), "embedding-{}.th".format(EMBEDDING_SIZE))
+
+print(np.array(embedding_weights).shape)

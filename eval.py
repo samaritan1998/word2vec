@@ -37,7 +37,6 @@ VOCAB_SIZE=dataProcess.getVocabsize()
 word_counts=dataProcess.getWordcounts()
 word_freqs=dataProcess.getWordfreq()
 model=word2vec.EmbeddingModel(VOCAB_SIZE, EMBEDDING_SIZE)
-#model = EmbeddingModel(VOCAB_SIZE, EMBEDDING_SIZE)
 dataset = WordEmbeddingDataset(text, word_to_idx, idx_to_word, word_freqs, word_counts,VOCAB_SIZE)
 dataloader = tud.DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
 
@@ -46,20 +45,24 @@ if USE_CUDA:
 def evaluate(filename, embedding_weights):
     if filename.endswith(".csv"):
         data = pd.read_csv(filename, sep=",")
-    else:
+    else:  #只需要txt的这个就可以了
         data = pd.read_csv(filename, sep="\t")
     human_similarity = []
     model_similarity = []
     for i in data.iloc[:, 0:2].index:
         word1, word2 = data.iloc[i, 0], data.iloc[i, 1]
         if word1 not in word_to_idx or word2 not in word_to_idx:
+            #model_similarity.append("OOV")
             continue
         else:
             word1_idx, word2_idx = word_to_idx[word1], word_to_idx[word2]
             word1_embed, word2_embed = embedding_weights[[word1_idx]], embedding_weights[[word2_idx]]
             model_similarity.append(float(sklearn.metrics.pairwise.cosine_similarity(word1_embed, word2_embed)))
             human_similarity.append(float(data.iloc[i, 2]))
-
+            #print(model_similarity)
+            #print("----------------------------------------------")
+            #print(human_similarity)
+            #print("----------------------------------------------")
     return scipy.stats.spearmanr(human_similarity, model_similarity)# , model_similarity
 
 def find_nearest(word):
