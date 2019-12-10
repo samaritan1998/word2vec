@@ -30,7 +30,7 @@ class dataProcess(object):
 
     def getText(self):
 
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]
@@ -46,7 +46,7 @@ class dataProcess(object):
         return text
         #return VOCAB_SIZE
     def getWordidx(self):
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]
@@ -61,7 +61,7 @@ class dataProcess(object):
         VOCAB_SIZE = len(idx_to_word)
         return word_to_idx
     def getIdxword(self):
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]
@@ -76,7 +76,7 @@ class dataProcess(object):
         VOCAB_SIZE = len(idx_to_word)
         return idx_to_word
     def getVocabsize(self):
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]
@@ -91,7 +91,7 @@ class dataProcess(object):
         VOCAB_SIZE = len(idx_to_word)
         return VOCAB_SIZE
     def getWordcounts(self):
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]
@@ -106,7 +106,7 @@ class dataProcess(object):
         VOCAB_SIZE = len(idx_to_word)
         return word_counts
     def getWordfreq(self):
-        with open("./data/text8.train.txt", "r") as fin:
+        with open("./data/cut_std_zh_wiki_00", "r") as fin:
             text = fin.read()
 
         text = [w for w in self.word_tokenize(text.lower())]

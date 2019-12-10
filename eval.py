@@ -71,3 +71,24 @@ def find_nearest(word):
     embedding = embedding_weights[index]
     cos_dis = np.array([scipy.spatial.distance.cosine(e, embedding) for e in embedding_weights])
     return [idx_to_word[i] for i in cos_dis.argsort()[:10]]
+
+def caculate(evalFile,embedding_weights):
+    out=[]
+    data = pd.read_csv(evalFile, sep="\t",error_bad_lines=False)
+    for i in data.iloc[:, 0:2].index:
+        temp=[]
+        word1, word2 = data.iloc[i, 0], data.iloc[i, 1]
+        temp.append(word1)
+        temp.append(word2)
+        if word1 not in word_to_idx or word2 not in word_to_idx:
+            #model_similarity.append("OOV")
+            temp.append("OOV")
+            continue
+        else:
+            word1_idx, word2_idx = word_to_idx[word1], word_to_idx[word2]
+            word1_embed, word2_embed = embedding_weights[[word1_idx]], embedding_weights[[word2_idx]]
+            temp.append(float(sklearn.metrics.pairwise.cosine_similarity(word1_embed, word2_embed)))
+        out.append(temp)
+    df = pd.DataFrame(out)
+
+    df.to_csv('result.txt', sep='\t', index=False,header=False,encoding="utf-8")

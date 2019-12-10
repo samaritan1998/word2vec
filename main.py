@@ -15,7 +15,7 @@ import sklearn
 from sklearn.metrics.pairwise import cosine_similarity
 import config
 from config import DefaultConfig
-from eval import evaluate,find_nearest
+from eval import evaluate,find_nearest,caculate
 import re
 from model import word2vec
 from data.dataProcess import WordEmbeddingDataset,dataProcess
@@ -74,21 +74,12 @@ for e in range(NUM_EPOCHS):
                 fout.write("epoch: {}, iter: {}, loss: {}\n".format(e, i, loss.item()))
                 print("epoch: {}, iter: {}, loss: {}".format(e, i, loss.item()))
 
-        if i % 2000 == 0:
-            embedding_weights = model.input_embeddings()
-            sim_simlex = evaluate("./data/simlex-999.txt", embedding_weights)
-            sim_men = evaluate("./data/men.txt", embedding_weights)
-            sim_353 = evaluate("./data/wordsim353.csv", embedding_weights)
-            with open(LOG_FILE, "a") as fout:
-                print("epoch: {}, iteration: {}, simlex-999: {}, men: {}, sim353: {}, nearest to monster: {}\n".format(
-                    e, i, sim_simlex, sim_men, sim_353, find_nearest("monster")))
-                fout.write(
-                    "epoch: {}, iteration: {}, simlex-999: {}, men: {}, sim353: {}, nearest to monster: {}\n".format(
-                        e, i, sim_simlex, sim_men, sim_353, find_nearest("monster")))
-
     embedding_weights = model.input_embeddings()
     #print(embedding_weights)
     np.save("embedding-{}".format(EMBEDDING_SIZE), embedding_weights)
     torch.save(model.state_dict(), "embedding-{}.th".format(EMBEDDING_SIZE))
-
+torch.save(model.state_dict(), 'params.pkl')
 print(np.array(embedding_weights).shape)
+embedMatrix = pd.DataFrame(embedding_weights)
+embedMatrix.to_csv('embed.txt', sep=' ', index=False,header=False,encoding="utf-8")
+caculate("./data/pku_sim_test.txt",embedding_weights)
