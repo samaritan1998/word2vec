@@ -15,7 +15,7 @@ import sklearn
 from sklearn.metrics.pairwise import cosine_similarity
 import config
 from config import DefaultConfig
-from eval import evaluate,find_nearest,caculate
+from eval import evaluate,find_nearest,caculate,caculate1
 import re
 from model import word2vec
 from data.dataProcess import WordEmbeddingDataset,dataProcess
@@ -50,7 +50,7 @@ if USE_CUDA:
     model = model.cuda()
 
 
-
+'''
 optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE)
 for e in range(NUM_EPOCHS):
     for i, (input_labels, pos_labels, neg_labels) in enumerate(dataloader):
@@ -78,8 +78,12 @@ for e in range(NUM_EPOCHS):
     #print(embedding_weights)
     np.save("embedding-{}".format(EMBEDDING_SIZE), embedding_weights)
     torch.save(model.state_dict(), "embedding-{}.th".format(EMBEDDING_SIZE))
-torch.save(model.state_dict(), 'params.pkl')
+'''
+model.load_state_dict(torch.load("params.pkl"))
+embedding_weights = model.input_embeddings()
+#torch.save(model.state_dict(), 'params.pkl')
 print(np.array(embedding_weights).shape)
 embedMatrix = pd.DataFrame(embedding_weights)
 embedMatrix.to_csv('embed.txt', sep=' ', index=False,header=False,encoding="utf-8")
 caculate("./data/pku_sim_test.txt",embedding_weights)
+caculate1("./data/pku_sim_test.txt",embedding_weights)

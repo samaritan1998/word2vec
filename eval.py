@@ -76,7 +76,7 @@ def caculate(evalFile,embedding_weights):
     out=[]
     data = pd.read_csv(evalFile, sep="\t",error_bad_lines=False)
     for i in data.iloc[:, 0:2].index:
-        temp=[]
+        temp = []
         word1, word2 = data.iloc[i, 0], data.iloc[i, 1]
         temp.append(word1)
         temp.append(word2)
@@ -92,3 +92,22 @@ def caculate(evalFile,embedding_weights):
     df = pd.DataFrame(out)
 
     df.to_csv('result.txt', sep='\t', index=False,header=False,encoding="utf-8")
+
+def caculate1(evalFile,embedding_weights):
+    fr=open('./2019110764.txt', 'w')
+    with open(evalFile, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            line=line.strip()
+            words=line.split('\t')
+            print(words)
+            word1=words[0]
+            word2=words[1]
+            if word1 not in word_to_idx or word2 not in word_to_idx:
+                fr.write(word1+'\t'+word2+'\t'+'OOV'+'\n')
+            else:
+                word1_idx,word2_idx = word_to_idx[word1],word_to_idx[word2]
+                word1_embed,word2_embed=embedding_weights[[word1_idx]],embedding_weights[[word2_idx]]
+                fr.write(word1 + '\t' + word2 + '\t' + str(float(sklearn.metrics.pairwise.cosine_similarity(word1_embed, word2_embed)))+'\n')
+    fr.close()
+    f.close()

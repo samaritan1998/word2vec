@@ -50,10 +50,8 @@ class EmbeddingModel(nn.Module):
         input_labels: 中心词, [batch_size]
         pos_labels: 中心词周围 context window 出现过的单词 [batch_size * (window_size * 2)]
         neg_labelss: 中心词周围没有出现过的单词，从 negative sampling 得到 [batch_size, (window_size * 2 * K)]
-
         return: loss, [batch_size]
         '''
-
         batch_size = input_labels.size(0)
 
         input_embedding = self.in_embed(input_labels)  # B * embed_size
